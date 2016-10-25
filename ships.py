@@ -11,3 +11,5 @@ class Ship:
 
     def damage(self):
         self.hit_points -= 1
+
+
