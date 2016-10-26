@@ -12,15 +12,15 @@ class Board:
 
     def __init__(self, hidden=False):
         self.hidden = hidden
-        self.ship_info = [
-            ("Aircraft Carrier", 5),
-            ("Battleship", 4),
-            ("Submarine", 3),
-            ("Cruiser", 3),
-            ("Patrol Boat", 2)
-        ]
         self.board_size = 10
         self.board = []
+        self.ship_info = [
+            Ship(("Aircraft Carrier", 5)),
+            Ship(("Battleship", 4)),
+            Ship(("Submarine", 3)),
+            Ship(("Cruiser", 3)),
+            Ship(("Patrol Boat", 2))
+        ]
         for rows in range(self.board_size):
             row = []
             for spot in range(self.board_size):
@@ -42,6 +42,15 @@ class Board:
 
     def position_ships(self):
         '''Method populates board with players choosen positions'''
+
+        for ship in self.ship_info:
+            ship.location = input('''Where do you want to place your ship?
+                                 Enter a location like A7: ''').strip().lower()
+            orientation = input("Place the ship horizontally? Y|N?: "
+                                ).strip().lower()
+            if orientation == "y":
+                ship.horizontal = True
+
         # For each ship in 'ship_info' create an instance of Ship()
         # Ask player where they want to place the ship
             # Check if player provides a valid location
