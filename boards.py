@@ -42,21 +42,21 @@ class Board:
 
     def position_ships(self):
         '''Method populates board with players choosen positions'''
-
         for ship in self.ship_info:
-            ship.location = input('''Where do you want to place your ship?
-                                 Enter a location like A7: ''').strip().lower()
+            ship.location = input('''Where do you want to place your {}, it's {} spaces}?
+                                 Enter a location like A7: '''
+                                 ).format(ship.name, ship.size).strip().lower()
             orientation = input("Place the ship horizontally? Y|N?: "
                                 ).strip().lower()
             if orientation == "y":
                 ship.horizontal = True
 
-        # For each ship in 'ship_info' create an instance of Ship()
-        # Ask player where they want to place the ship
-            # Check if player provides a valid location
-            # Check if location doesn't have a conflicting ship
-            # If either of the above fails, inform player and retry input
-        # Save the ships location
+    def check_ship_clearence(self, location):
+        '''Checks to see if ships desired location conflicts with an
+        existing ship's location'''
+
+    def valid_location_input(self, location):
+        '''Checks the provided location entered by user is valid'''
 
 
 Board()  # For Testing
