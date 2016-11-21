@@ -40,35 +40,67 @@ class Board:
             print(str(row_num).rjust(2) + " " + (" ".join(row)))
             row_num += 1
 
+    def take_cordinates(self, ship):
+        location = input('''Where shall I order the {} to captain? Keep in mind she's {} long.
+                                    (Give a location like A7) '''
+                            .format(ship.name, ship.size)).strip().lower()
+        cordinates = self.encode_cordinates(location)
+        return cordinates
+
     def position_ships(self):
         '''Method populates board with players choosen positions'''
         for ship in self.ship_info:
-            location = input('''Where shall I order the {} to captain? Keep in mind she's {} long.
-                                    (Give a location like A7) '''
-                                 ).format(ship.name, ship.size).strip().lower()
-            cordinates = encode_cordinates(location)
-            if valid_cordinates_check(location):
-                orientation = input("Shall I position her horizontally captain? Y|N?: "
+            cordinates = self.take_cordinates(ship)
+            if self.valid_cordinates_check(cordinates):
+                orientation = input(
+                                    '''Shall I position her horizontally
+                                    captain? Y|N?: '''
                                     ).strip().lower()
                 if orientation == "n":
                     counter = 0
-                    for row in range(cordinates[1], cordinates[1]+ship.size):
-                        if check_ship_clearence((cordinates[0], cordinates[1]+counter)):
+                    cordinates_to_store = []
+                    for row in range(cordinates[1],
+                                     cordinates[1] + ship.size):
+                        if self.check_ship_clearence((cordinates[0],
+                                                 cordinates[1] + counter)):
+                            cordinates_to_store.append((
+                                                        cordinates[0],
+                                                        cordinates[1] + counter
+                                                        ))
                             counter += 1
                             continue
                         else:
-                            print("There's another ship in that position captain! I can't order the {} there!").format(ship.name)
-                            break
+                            print('''
+                                  There's another ship in that position
+                                   captain! I can't order the {} there!
+                                    ''').format(ship.name)
+                            self.position_ships()
                     ship.horizontal = False
+                    ship.cordinates.append(cordinates_to_store)
                 else:
                     counter = 0
-                    for column in range()
-                    ship.horizontal = False
-                ship.coordinates.append(encode_cordinates(location))
-
+                    cordinates_to_store = []
+                    for column in range(cordinates[0], cordinates[0] + ship.size):
+                        if self.check_ship_clearence((cordinates[0] + counter, cordinates[1])):
+                            cordinates_to_store.append((cordinates[0] + counter, cordinates[1]))
+                            counter += 1
+                        else:
+                            print('''There's another ship in that position
+                                  captain! I can't order the {} there!''').format(
+                                  ship.name)
+                    ship.horizontal = True
+                    ship.cordinates.append(cordinates_to_store)
+            else:
+                print("Captain, those cordinates...I don't understand them. Try again? ")
+                self.take_cordinates()
     def encode_cordinates(self, cordinates):
         '''Converts user inputted cordinates into numeric form'''
-        column = COLUMNS.index(cordinates[0])
+        column = int(self.COLUMNS.index(cordinates[0]))
+        row = int(cordinates[1:])
+        return (column, row)
+
+    def decode_cordinates(self,cordinates):
+        column = self.COLUMNS[cordinates[0]]
         row = cordinates[1:]
         return (column, row)
 
@@ -83,9 +115,12 @@ class Board:
 
     def valid_cordinates_check(self, cordinates):
         '''Checks the provided location entered by user is valid'''
+        decoded_cordinates = self.decode_cordinates(cordinates)
+        decoded_column = decoded_cordinates[0]
+        decoded_row = decoded_cordinates[1]
         valid_columns = 'abcdefghij'
-        if cordinates[0] in valid_columns:
-            if 0 < cordinates[1:] < 11:
+        if decoded_column in valid_columns:
+            if 0 < decoded_row < 11:
                 return True
 
 

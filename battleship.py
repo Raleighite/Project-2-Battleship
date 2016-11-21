@@ -1,9 +1,16 @@
+from boards import Board
+from players import Player
 
 
 
 def clear_screen():
     print("\033c", end="")
 
+class Game():
+
+    def __init__(self):
+        player_1 = Player()
+        Player_2 = Player()
 # Game class
 	# Ask player 1 to enter their name
 	# Create instance of Player() and set to name provided
@@ -17,7 +24,7 @@ def clear_screen():
 				# Register ship location up from initial point if vertical or to the right if horizontal
 				# Remember to register all affected locations of ship based on number of spaces it occupies
 	# Prompt user to hit enter to end their turn
-	# Clear screen 
+	# Clear screen
 	# Ask player 2 to enter their name
 	# Create instance of Player() and set to name provided
 	# Create instance of Board() and assign ownership to player 2
@@ -54,8 +61,8 @@ def clear_screen():
 						# If not, continue on
 					# Allow current player to fire again ?
 				# If miss, inform current player, and mark a miss on other player's map
-				# Either way, store the guess in current player's guessed moves	
-	 
+				# Either way, store the guess in current player's guessed moves
+
 
 
 
