@@ -1,6 +1,6 @@
 class Ship:
 
-    location = []
+    cordinates = []
     horizontal = False
 
 
