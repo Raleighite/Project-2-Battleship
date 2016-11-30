@@ -28,6 +28,9 @@ class Board:
             self.board.append(row)
         self.print_board()
 
+    def clear_screen(self):
+        print("\033c", end="")
+
     def print_board_heading(self):
         print("   " + " ".join([chr(c) for c in range(ord('A'),
                                 ord('A') + self.board_size)
@@ -40,7 +43,7 @@ class Board:
             print(str(row_num).rjust(2) + " " + (" ".join(row)))
             row_num += 1
 
-    def take_cordinates(self, ship):
+    def take_cordinates_placement(self, ship):
         location = input('''Where shall I order the {} to captain? Keep in mind she's {} long.
                                     (Give a location like A7) '''
                             .format(ship.name, ship.size)).strip().lower()
@@ -50,13 +53,14 @@ class Board:
     def position_ships(self):
         '''Method populates board with players choosen positions'''
         for ship in self.ship_info:
-            cordinates = self.take_cordinates(ship)
+            self.print_board()
+            cordinates = self.take_cordinates_placement(ship)
             if self.valid_cordinates_check(cordinates):
                 orientation = input(
                                     '''Shall I position her horizontally
                                     captain? Y|N?: '''
                                     ).strip().lower()
-                if orientation == "n":
+                if orientation == "y":
                     counter = 0
                     cordinates_to_store = []
                     for row in range(cordinates[1],
@@ -77,7 +81,10 @@ class Board:
                             self.position_ships()
                     ship.horizontal = False
                     ship.cordinates.append(cordinates_to_store)
-                else:
+                    for cordinate in cordinates_to_store:
+                        self.board[cordinate[0]][cordinate[1]] = Board.HORIZONTAL_SHIP
+                    self.clear_screen()
+                elif orientation == "n":
                     counter = 0
                     cordinates_to_store = []
                     for column in range(cordinates[0], cordinates[0] + ship.size):
@@ -90,13 +97,18 @@ class Board:
                                   ship.name)
                     ship.horizontal = True
                     ship.cordinates.append(cordinates_to_store)
+                    for cordinate in cordinates_to_store:
+                        self.board[cordinate[0]][cordinate[1]] = Board.VERTICAL_SHIP
+                    self.clear_screen()
             else:
+                self.clear_screen()
                 print("Captain, those cordinates...I don't understand them. Try again? ")
-                self.take_cordinates()
+                self.take_cordinates_placement(ship)
+
     def encode_cordinates(self, cordinates):
         '''Converts user inputted cordinates into numeric form'''
         column = int(self.COLUMNS.index(cordinates[0]))
-        row = int(cordinates[1])
+        row = int(cordinates[1]) - 1
         return (column, row)
 
     def decode_cordinates(self,cordinates):
@@ -120,8 +132,29 @@ class Board:
         decoded_row = decoded_cordinates[1]
         valid_columns = 'abcdefghij'
         if decoded_column in valid_columns:
-            if 0 < decoded_row < 11:
+            if decoded_row < 0 or decoded_row > 10:
+                return False
+            else:
                 return True
 
-
-Board()  # For Testing
+    def fire(self, player_shooter, player_shootee):
+        self.clear_screen()
+        player_shootee.board.print_board()
+        shot_cordinates = input("Where shall we fire Captain {}? Give cordinate like A7").format(player.name)
+        shot_cordinates = encode_cordinates(shot_cordinates)
+        if shot_cordinates in player_shooter.attempted_shots:
+            print("You have already tried to shoot there Captain.")
+            self.fire(player_shooter, player_shootee)
+        else:
+            continue
+        for ship in player_shootee.board.ship_info:
+            for ship_cord in ship.cordinates:
+                if ship_cord == shot_cordinates:
+                    print("You hit the {}").format(ship.name)
+                    player_shootee.board[shot_cordinates[0]][shot_cordinates[1]] = self.HIT
+                    ship.hit_points - 1
+                    player_shooter.attempted_shots.append(shot_cordinates)
+                else:
+                    print("You missed")
+                    player_shootee.board[shot_cordinates[0]][shot_cordinates[1]] = self.MISS
+                    player_shooter.attempted_shots.append(shot_cordinates)

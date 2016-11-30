@@ -3,16 +3,22 @@ from players import Player
 
 
 
-def clear_screen():
-    print("\033c", end="")
+
 
 class Game():
 
     def __init__(self):
+        setup()
+
+    def setup(self):
         player_1 = Player()
-        Player_2 = Player()
-	# Create instance of Player() and set to name provided
-	# Create instance of Board() and assign ownership to player 1
+        player_1.board.clear_screen()
+        player_1.board.position_ships()
+        plater_1.board.clear_screen()
+        player_2 = Player()
+        player_2.board.clear_screen()
+        player_2.position_ships()
+
 	# Ask player to place a ship for each ship they have (5 in total)
 		# Check to make sure the provided location by user is valid
 		# Ask player if they want the ship to be horizontal
@@ -65,4 +71,4 @@ class Game():
 
 
 
-
+Game()
