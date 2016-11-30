@@ -11,8 +11,6 @@ class Game():
     def __init__(self):
         player_1 = Player()
         Player_2 = Player()
-# Game class
-	# Ask player 1 to enter their name
 	# Create instance of Player() and set to name provided
 	# Create instance of Board() and assign ownership to player 1
 	# Ask player to place a ship for each ship they have (5 in total)

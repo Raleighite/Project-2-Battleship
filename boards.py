@@ -96,12 +96,12 @@ class Board:
     def encode_cordinates(self, cordinates):
         '''Converts user inputted cordinates into numeric form'''
         column = int(self.COLUMNS.index(cordinates[0]))
-        row = int(cordinates[1:])
+        row = int(cordinates[1])
         return (column, row)
 
     def decode_cordinates(self,cordinates):
         column = self.COLUMNS[cordinates[0]]
-        row = cordinates[1:]
+        row = cordinates[1]
         return (column, row)
 
     def check_ship_clearence(self, cordinates):
