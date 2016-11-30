@@ -19,7 +19,7 @@ class Board:
         self.ship_info = [
             Ship("Aircraft Carrier", 5),
             Ship("Battleship", 4),
-            #Ship("Submarine", 3),
+            Ship("Submarine", 3),
             #Ship("Cruiser", 3),
             #Ship("Patrol Boat", 2)
         ]
