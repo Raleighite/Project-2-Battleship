@@ -1,3 +1,5 @@
+import sys
+
 from ships import Ship
 
 
@@ -17,9 +19,9 @@ class Board:
         self.ship_info = [
             Ship("Aircraft Carrier", 5),
             Ship("Battleship", 4),
-            Ship("Submarine", 3),
-            Ship("Cruiser", 3),
-            Ship("Patrol Boat", 2)
+            #Ship("Submarine", 3),
+            #Ship("Cruiser", 3),
+            #Ship("Patrol Boat", 2)
         ]
         for rows in range(self.board_size):
             row = []
@@ -145,16 +147,25 @@ class Board:
         if shot_cordinates in player_shooter.attempted_shots:
             print("You have already tried to shoot there Captain.")
             self.fire(player_shooter, player_shootee)
-        else:
-            continue
+
         for ship in player_shootee.board.ship_info:
             for ship_cord in ship.cordinates:
                 if ship_cord == shot_cordinates:
                     print("You hit the {}").format(ship.name)
                     player_shootee.board[shot_cordinates[0]][shot_cordinates[1]] = self.HIT
-                    ship.hit_points - 1
+                    ship.damage()
+                    if ship.sunk():
+                        print("WooHoo! You sank the {} Captain!").format(ship.name)
                     player_shooter.attempted_shots.append(shot_cordinates)
                 else:
                     print("You missed")
                     player_shootee.board[shot_cordinates[0]][shot_cordinates[1]] = self.MISS
                     player_shooter.attempted_shots.append(shot_cordinates)
+
+    def victory_check(self, player_shooter, player_shootee):
+        if len(player_shootee.board.ship_info) <= 0:
+            print("Congrats {}! You Win!!!!!")
+            print("*" * 20)
+            input("Press any key to exit")
+            sys.exit()
+

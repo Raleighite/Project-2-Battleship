@@ -8,25 +8,45 @@ from players import Player
 class Game():
 
     def __init__(self):
-        setup()
+        player_1 = Player()
+        player_2 = Player()
+        self.setup()
+        counter = 1
+        while True:
+            if self.even_odd(counter) == 1:
+                self.game_turn(player_1, self.player_2)
+                counter += 1
+            else:
+                self.game_turn(self.player_2, self.player_1)
+                counter += 1
 
     def setup(self):
         player_1 = Player()
         player_1.board.clear_screen()
         player_1.board.position_ships()
-        plater_1.board.clear_screen()
-        player_2 = Player()
-        player_2.board.clear_screen()
-        player_2.position_ships()
+        player_1.board.clear_screen()
+        input("Captain {}, your turn is complete. Please switch players and press any key ").format(self.player_1.name)
+        player_1.board.clear_screen()
 
-	# Ask player to place a ship for each ship they have (5 in total)
-		# Check to make sure the provided location by user is valid
-		# Ask player if they want the ship to be horizontal
-		# Check to see if ship overlaps any other ship
-			# If conflict inform user and ask for a different location to place ship
-			# If no conflict store ship location
-				# Register ship location up from initial point if vertical or to the right if horizontal
-				# Remember to register all affected locations of ship based on number of spaces it occupies
+        player_2.board.clear_screen()
+        player_2.board.position_ships()
+        player_2.board.clear_screen()
+        input("Captain {}, your turn is complete. Please switch players and press any key ").format(self.player_2.name)
+
+    def game_turn(self, player_shooter, player_shootee):
+        player_shooter.board.clear_screen()
+        player_shootee.board.print_board()
+        player_shooter.board.fire(player_shooter, player_shootee)
+        player_shooter.board.victory_check(player_shooter, player_shootee)
+
+    def even_odd(self, count):
+        if count % 2 != 0:
+            return 1
+        else:
+            return 2
+
+
+
 	# Prompt user to hit enter to end their turn
 	# Clear screen
 	# Ask player 2 to enter their name
