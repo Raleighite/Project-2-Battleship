@@ -6,6 +6,7 @@ from players import Player
 
 
 class Game():
+    print("\033c", end="")
     player_1 = ''
     player_2 = ''
 
@@ -14,24 +15,24 @@ class Game():
         counter = 1
         while True:
             if self.even_odd(counter) == 1:
-                self.game_turn(player_1, player_2)
+                self.game_turn(self.player_1, self.player_2)
                 counter += 1
             else:
-                self.game_turn(player_2, player_1)
+                self.game_turn(self.player_2, self.player_1)
                 counter += 1
 
     def setup(self):
-        player_1 = Player()
-        player_1.board.clear_screen()
-        player_1.board.position_ships()
-        player_1.board.clear_screen()
-        input("Captain {}, your turn is complete. Please switch players and press any key ").format(player_1.name)
-        player_1.board.clear_screen()
-        player_2 = Player()
-        player_2.board.clear_screen()
-        player_2.board.position_ships()
-        player_2.board.clear_screen()
-        input("Captain {}, your turn is complete. Please switch players and press any key ").format(player_2.name)
+        self.player_1 = Player()
+        self.player_1.board.clear_screen()
+        self.player_1.board.position_ships()
+        self.player_1.board.clear_screen()
+        input("Captain {}, your turn is complete. Please switch players and press any key ".format(self.player_1.name))
+        self.player_1.board.clear_screen()
+        self.player_2 = Player()
+        self.player_2.board.clear_screen()
+        self.player_2.board.position_ships()
+        self.player_2.board.clear_screen()
+        input("Captain {}, your turn is complete. Please switch players and press any key ".format(self.player_2.name))
 
     def game_turn(self, player_shooter, player_shootee):
         player_shooter.board.clear_screen()

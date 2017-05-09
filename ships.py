@@ -1,6 +1,6 @@
 class Ship:
 
-    cordinates = []
+    coordinates = []
     horizontal = False
 
     def __init__(self, name, size):
