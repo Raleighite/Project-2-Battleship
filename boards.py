@@ -159,14 +159,13 @@ class Board:
             for ship_cord in ship.coordinates:
                 if ship_cord == shot_coordinates:
                     print("You hit the {}").format(ship.name)
-                    player_shootee.board[shot_coordinates[0]][shot_coordinates[1]] = self.HIT
-                    ship.damage()
+                    player_shootee.board.mark(ship_cord, True)
                     if ship.sunk():
                         print("WooHoo! You sank the {} Captain!").format(ship.name)
                     player_shooter.attempted_shots.append(shot_coordinates)
                 else:
                     print("You missed")
-                    player_shootee.board[shot_coordinates[0]][shot_coordinates[1]] = self.MISS
+                    player_shootee.board.mark(ship_cord, False)
                     player_shooter.attempted_shots.append(shot_coordinates)
 
     def mark(self, coordinates, hit):
