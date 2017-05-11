@@ -1,4 +1,4 @@
-import sys
+#import sys
 
 from ships import Ship
 
@@ -83,8 +83,8 @@ class Board:
                             self.position_ships()
                     ship.horizontal = False
                     ship.coordinates.append(coordinates_to_store)
-                    for cordinate in coordinates_to_store:
-                        self.board[cordinate[0]][cordinate[1]] = Board.HORIZONTAL_SHIP
+                    for coordinate in coordinates_to_store:
+                        self.board[coordinate[0]][coordinate[1]] = Board.HORIZONTAL_SHIP
                     self.clear_screen()
                 elif orientation == "n":
                     counter = 0
@@ -100,8 +100,8 @@ class Board:
                     ship.horizontal = True
                     ship.coordinates.append(coordinates_to_store)
                     try:
-                        for cordinate in coordinates_to_store:
-                            self.board[cordinate[0]][cordinate[1]] = Board.VERTICAL_SHIP
+                        for coordinate in coordinates_to_store:
+                            self.board[coordinate[0]][coordinate[1]] = Board.VERTICAL_SHIP
                     except IndexError:
                         print("That would put the ship off the map captain, try again")
                         self.position_ships()
@@ -129,9 +129,13 @@ class Board:
         '''Checks to see if ships desired location conflicts with an
         existing ship's location'''
         for ship in self.ship_info:
-            if coordinates in ship.coordinates:
-                return False
-            else:
+            try:
+                if coordinates in ship.coordinates[0]:
+                    return False
+
+                else:
+                    return True
+            except IndexError:
                 return True
 
     def valid_coordinates_check(self, coordinates):
@@ -159,14 +163,14 @@ class Board:
             for ship_cord in ship.coordinates:
                 if ship_cord == shot_coordinates:
                     print("You hit the {}").format(ship.name)
-                    player_shootee.board[shot_coordinates[0]][shot_coordinates[1]] = self.HIT
+                    self.mark(shot_coordinates, hit=True)
                     ship.damage()
                     if ship.sunk():
                         print("WooHoo! You sank the {} Captain!").format(ship.name)
                     player_shooter.attempted_shots.append(shot_coordinates)
                 else:
                     print("You missed")
-                    player_shootee.board[shot_coordinates[0]][shot_coordinates[1]] = self.MISS
+                    self.mark(shot_coordinates, hit=False)
                     player_shooter.attempted_shots.append(shot_coordinates)
 
     def mark(self, coordinates, hit):
