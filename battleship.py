@@ -24,13 +24,13 @@ class Game():
     def setup(self):
         self.player_1 = Player()
         self.player_1.board.clear_screen()
-        self.player_1.board.position_ships()
+        self.player_1.board.ship_placement()
         self.player_1.board.clear_screen()
         input("Captain {}, your turn is complete. Please switch players and press any key ".format(self.player_1.name))
         self.player_1.board.clear_screen()
         self.player_2 = Player()
         self.player_2.board.clear_screen()
-        self.player_2.board.position_ships()
+        self.player_2.board.ship_placement()
         self.player_2.board.clear_screen()
         input("Captain {}, your turn is complete. Please switch players and press any key ".format(self.player_2.name))
 

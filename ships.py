@@ -9,6 +9,9 @@ class Ship:
         self.coordinates = []
         self.horizontal = False
 
+    def __str__(self):
+        return self.name
+
     def sunk(self):
         if self.hit_points <= 0:
             return True

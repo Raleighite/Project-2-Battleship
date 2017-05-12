@@ -57,6 +57,7 @@ class Board:
     def ship_placement(self):
         for ship in self.ship_info:
             self.location_input(ship)
+            self.mark_locations(ship)
             self.clear_screen()
 
     def horizontal_input(self):
@@ -70,10 +71,10 @@ class Board:
         coordinates = self.take_coordinates_placement(ship)
         if self.valid_coordinates_check(coordinates):
             ship_horizontal = self.horizontal_input()
-            if ship_horizontal:
+            if not ship_horizontal:
                 counter = 0
                 coordinates_to_store = []
-                for row in range(coordinates[1], coordinates[1] + ship.size):
+                for column in range(coordinates[0], coordinates[0] + ship.size):
                     if self.check_ship_clearance((coordinates[0], coordinates[1] + counter)):
                         coordinates_to_store.append((coordinates[0], coordinates[1] + counter))
                         counter += 1
@@ -84,13 +85,13 @@ class Board:
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
                     ship.coordinates.append(coordinates_to_store)
-                    ship.horizontal = True
+                    ship.horizontal = False
             else:
                 counter = 0
                 coordinates_to_store = []
-                for column in range(coordinates[0], coordinates[0] + ship.size):
+                for row in range(coordinates[1], coordinates[1] + ship.size):
                     if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
-                        coordinates_to_store.append((coordinates[0] + 0, coordinates[1]))
+                        coordinates_to_store.append((coordinates[0] + counter, coordinates[1]))
                         counter += 1
                         ship.coordinates.append(coordinates_to_store)
                     else:
@@ -100,91 +101,93 @@ class Board:
                         self.location_input(ship)
                     if len(coordinates_to_store) == ship.size:
                         ship.coordinates.append(coordinates_to_store)
+                        ship.horizontal = True
 
     def mark_locations(self, ship):
         marker = ''
-        if ship.orientation:
+        if ship.horizontal:
             marker = self.HORIZONTAL_SHIP
         else:
             marker = self.VERTICAL_SHIP
-        for coordinate in ship.coordinates:
+        for coordinate in ship.coordinates[0]:
+            self.board[coordinate[1]][coordinate[0]] = marker
 
 
 
-    def position_ships(self):
-        '''Method populates board with players choosen positions'''
-        for ship in self.ship_info:
-            self.print_board()
-            coordinates = self.take_coordinates_placement(ship)
-            if self.valid_coordinates_check(coordinates):
-                orientation = input(
-                                    '''Shall I position her horizontally
-                                    captain? Y|N?: '''
-                                    ).strip().lower()
-                if orientation == "y":
-                    counter = 0
-                    coordinates_to_store = []
-                    for row in range(coordinates[1],
-                                     coordinates[1] + ship.size):
-                        if self.check_ship_clearance((coordinates[0],
-                                                      coordinates[1] + counter)):
-                            coordinates_to_store.append((
-                                                        coordinates[0],
-                                                        coordinates[1] + counter
-                                                        ))
-                            counter += 1
-                            continue
-                            ship.coordinates.append(coordinates_to_store)
-                        else:
-                            print('''
-                                  There's another ship in that position
-                                   captain! I can't order the {} there!
-                                    '''.format(ship.name))
-                            self.position_ships()
-                    ship.horizontal = False
-
-                    for coordinate in coordinates_to_store:
-                        self.board[coordinate[0]][coordinate[1]] = Board.HORIZONTAL_SHIP
-                    self.clear_screen()
-                elif orientation == "n":
-                    counter = 0
-                    coordinates_to_store = []
-                    for column in range(coordinates[0], coordinates[0] + ship.size):
-                        if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
-                            coordinates_to_store.append((coordinates[0] + counter, coordinates[1]))
-                            counter += 1
-                            ship.coordinates.append(coordinates_to_store)
-                        else:
-                            print('''There's another ship in that position
-                                  captain! I can't order the {} there!'''.format(
-                                  ship.name))
-                            self.position_ships()
-                    ship.horizontal = True
-
-                    try:
-                        for coordinate in coordinates_to_store:
-                            self.board[coordinate[0]][coordinate[1]] = Board.VERTICAL_SHIP
-                    except IndexError:
-                        print("That would put the ship off the map captain, try again")
-                        self.position_ships()
-                    self.clear_screen()
-            else:
-                self.clear_screen()
-                self.print_board()
-                print("Captain, those coordinates...I don't understand them. Try again? ")
-                self.take_coordinates_placement(ship)
-                self.clear_screen()
+    #def position_ships(self):
+        # '''Method populates board with players choosen positions'''
+        # for ship in self.ship_info:
+        #     self.print_board()
+        #     coordinates = self.take_coordinates_placement(ship)
+        #     if self.valid_coordinates_check(coordinates):
+        #         orientation = input(
+        #                             '''Shall I position her horizontally
+        #                             captain? Y|N?: '''
+        #                             ).strip().lower()
+        #         if orientation == "y":
+        #             counter = 0
+        #             coordinates_to_store = []
+        #             for row in range(coordinates[1],
+        #                              coordinates[1] + ship.size):
+        #                 if self.check_ship_clearance((coordinates[0],
+        #                                               coordinates[1] + counter)):
+        #                     coordinates_to_store.append((
+        #                                                 coordinates[0],
+        #                                                 coordinates[1] + counter
+        #                                                 ))
+        #                     counter += 1
+        #                     continue
+        #                     ship.coordinates.append(coordinates_to_store)
+        #                 else:
+        #                     print('''
+        #                           There's another ship in that position
+        #                            captain! I can't order the {} there!
+        #                             '''.format(ship.name))
+        #                     self.position_ships()
+        #             ship.horizontal = False
+        #
+        #             for coordinate in coordinates_to_store:
+        #                 self.board[coordinate[0]][coordinate[1]] = Board.HORIZONTAL_SHIP
+        #             self.clear_screen()
+        #         elif orientation == "n":
+        #             counter = 0
+        #             coordinates_to_store = []
+        #             for column in range(coordinates[0], coordinates[0] + ship.size):
+        #                 if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
+        #                     coordinates_to_store.append((coordinates[0] + counter, coordinates[1]))
+        #                     counter += 1
+        #                     ship.coordinates.append(coordinates_to_store)
+        #                 else:
+        #                     print('''There's another ship in that position
+        #                           captain! I can't order the {} there!'''.format(
+        #                           ship.name))
+        #                     self.position_ships()
+        #             ship.horizontal = True
+        #
+        #             try:
+        #                 for coordinate in coordinates_to_store:
+        #                     self.board[coordinate[0]][coordinate[1]] = Board.VERTICAL_SHIP
+        #             except IndexError:
+        #                 print("That would put the ship off the map captain, try again")
+        #                 self.position_ships()
+        #             self.clear_screen()
+        #     else:
+        #         self.clear_screen()
+        #         self.print_board()
+        #         print("Captain, those coordinates...I don't understand them. Try again? ")
+        #         self.take_coordinates_placement(ship)
+        #         self.clear_screen()
 
     def encode_coordinates(self, coordinates):
         '''Converts user inputted coordinates into numeric form'''
         column = int(self.COLUMNS.index(coordinates[0]))
         row = int(coordinates[1]) - 1
-        return column, row
+        return row, column
 
     def decode_coordinates(self,coordinates):
         ''''Converts numeric form coordinates into human readable alphanumeric'''
-        column = self.COLUMNS[coordinates[0]]
-        row = coordinates[1] + 1
+        column = self.COLUMNS[coordinates[1]]
+        row = coordinates[0] + 1
         return column, row
 
     def check_ship_clearance(self, coordinates):
@@ -198,6 +201,7 @@ class Board:
                 else:
                     return True
             except IndexError:
+                print("Clearance threw IndexError")
                 return True
 
     def valid_coordinates_check(self, coordinates):
@@ -222,9 +226,9 @@ class Board:
             self.fire(player_shooter, player_shootee)
 
         for ship in player_shootee.board.ship_info:
-            for ship_cord in ship.coordinates:
+            for ship_cord in ship.coordinates[0]:
                 if ship_cord == shot_coordinates:
-                    print("You hit the {}").format(ship.name)
+                    print("You hit the {}".format(ship.name))
                     player_shootee.board.mark(ship_cord, True)
                     if ship.sunk():
                         print("WooHoo! You sank the {} Captain!").format(ship.name)
@@ -235,7 +239,7 @@ class Board:
                     player_shooter.attempted_shots.append(shot_coordinates)
 
     def mark(self, coordinates, hit):
-        row, column = self.decode_coordinates(coordinates)
+        row, column = coordinates[0]
         if hit == True:
             self.board[row][column] = Board.HIT
         else:
