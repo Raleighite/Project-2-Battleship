@@ -1,12 +1,13 @@
 class Ship:
 
-    horizontal = False
+
 
     def __init__(self, name, size):
         self.name = name
         self.size = size
         self.hit_points = size
         self.coordinates = []
+        self.horizontal = False
 
     def sunk(self):
         if self.hit_points <= 0:
