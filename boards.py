@@ -74,9 +74,9 @@ class Board:
             if not ship_horizontal:
                 counter = 0
                 coordinates_to_store = []
-                for column in range(coordinates[0], coordinates[0] + ship.size):
-                    if self.check_ship_clearance((coordinates[0], coordinates[1] + counter)):
-                        coordinates_to_store.append((coordinates[0], coordinates[1] + counter))
+                for column in range(ship.size):
+                    if self.check_ship_clearance((coordinates[1] + counter, coordinates[0])):
+                        coordinates_to_store.append((coordinates[1] + counter, coordinates[0]))
                         counter += 1
                     else:
                         self.clear_screen()
@@ -89,19 +89,19 @@ class Board:
             else:
                 counter = 0
                 coordinates_to_store = []
-                for row in range(coordinates[1], coordinates[1] + ship.size):
-                    if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
-                        coordinates_to_store.append((coordinates[0] + counter, coordinates[1]))
+                for row in range(ship.size):
+                    if self.check_ship_clearance((coordinates[1], coordinates[0] + counter)):
+                        coordinates_to_store.append((coordinates[1], coordinates[0] + counter))
                         counter += 1
-                        ship.coordinates.append(coordinates_to_store)
+                        #ship.coordinates.append(coordinates_to_store)
                     else:
                         self.clear_screen()
                         print('''There's another ship in that position
                                 captain! I can't oder the {} there!'''.format(ship.name))
                         self.location_input(ship)
-                    if len(coordinates_to_store) == ship.size:
-                        ship.coordinates.append(coordinates_to_store)
-                        ship.horizontal = True
+                if len(coordinates_to_store) == ship.size:
+                    ship.coordinates.append(coordinates_to_store)
+                    ship.horizontal = True
 
     def mark_locations(self, ship):
         marker = ''
@@ -193,16 +193,18 @@ class Board:
     def check_ship_clearance(self, coordinates):
         '''Checks to see if ships desired location conflicts with an
         existing ship's location'''
+        clear = None
         for ship in self.ship_info:
             try:
                 if coordinates in ship.coordinates[0]:
-                    return False
+                    clear = False
 
                 else:
-                    return True
+                    clear = True
             except IndexError:
                 print("Clearance threw IndexError")
-                return True
+                clear = True
+        return clear
 
     def valid_coordinates_check(self, coordinates):
         '''Checks the provided location entered by user is valid'''
