@@ -101,14 +101,14 @@ class Board:
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
                     ship.coordinates.append(coordinates_to_store)
-                    ship.horizontal = True
+                    ship.horizontal = False
 
     def mark_locations(self, ship):
         marker = ''
         if ship.horizontal:
-            marker = self.VERTICAL_SHIP
-        else:
             marker = self.HORIZONTAL_SHIP
+        else:
+            marker = self.VERTICAL_SHIP
         for coordinate in ship.coordinates[0]:
             self.board[coordinate[1]][coordinate[0]] = marker
 
@@ -192,13 +192,15 @@ class Board:
 
     def check_ship_clearance(self, coordinates):
         '''Checks to see if ships desired location conflicts with an
-        existing ship's location'''
+        existing ship's location. For some reason this loop is running multiple times.'''
         clear = None
         for ship in self.ship_info:
             try:
-                if coordinates in ship.coordinates[0]:
+                if ship.coordinates[0] == None:
+                    continue
+                elif coordinates in ship.coordinates[0]:
                     clear = False
-
+                    return clear
                 else:
                     clear = True
             except IndexError:
