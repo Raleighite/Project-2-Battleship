@@ -71,7 +71,7 @@ class Board:
         coordinates = self.take_coordinates_placement(ship)
         if self.valid_coordinates_check(coordinates):
             ship_horizontal = self.horizontal_input()
-            if not ship_horizontal:
+            if ship_horizontal:
                 counter = 0
                 coordinates_to_store = []
                 for column in range(ship.size):
@@ -85,7 +85,7 @@ class Board:
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
                     ship.coordinates.append(coordinates_to_store)
-                    ship.horizontal = False
+                    ship.horizontal = True
             else:
                 counter = 0
                 coordinates_to_store = []
@@ -106,9 +106,9 @@ class Board:
     def mark_locations(self, ship):
         marker = ''
         if ship.horizontal:
-            marker = self.HORIZONTAL_SHIP
-        else:
             marker = self.VERTICAL_SHIP
+        else:
+            marker = self.HORIZONTAL_SHIP
         for coordinate in ship.coordinates[0]:
             self.board[coordinate[1]][coordinate[0]] = marker
 
