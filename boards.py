@@ -18,7 +18,7 @@ class Board:
         self.board = []
         self.ship_info = [
             Ship("Aircraft Carrier", 5),
-            #Ship("Battleship", 4),
+            Ship("Battleship", 4),
             #Ship("Submarine", 3),
             #Ship("Cruiser", 3),
             #Ship("Patrol Boat", 2)
@@ -93,11 +93,10 @@ class Board:
                     if self.check_ship_clearance((coordinates[1] + counter, coordinates[0])):
                         coordinates_to_store.append((coordinates[1] + counter, coordinates[0]))
                         counter += 1
-                        #ship.coordinates.append(coordinates_to_store)
                     else:
                         self.clear_screen()
                         print('''There's another ship in that position
-                                captain! I can't oder the {} there!'''.format(ship.name))
+                                captain! I can't order the {} there!'''.format(ship.name))
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
                     ship.coordinates.append(coordinates_to_store)
@@ -131,7 +130,7 @@ class Board:
         clear = None
         for ship in self.ship_info:
             try:
-                if ship.coordinates[0] == None:
+                if ship.coordinates[0] == None or []:
                     continue
                 elif coordinates in ship.coordinates[0]:
                     clear = False
