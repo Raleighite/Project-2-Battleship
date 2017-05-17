@@ -145,17 +145,20 @@ class Board:
 
     def valid_coordinates_check(self, coordinates):
         '''Checks the provided location entered by user is valid'''
-        decoded_column = coordinates[0]
         try:
-            decoded_row = int(coordinates[1:])
-        except ValueError:
-            return False
-        valid_columns = 'abcdefghij'
-        if decoded_column in valid_columns:
-            if decoded_row < 0 or decoded_row > 10:
+            decoded_column = coordinates[0]
+            try:
+                decoded_row = int(coordinates[1:])
+            except ValueError:
                 return False
-            else:
-                return True
+            valid_columns = 'abcdefghij'
+            if decoded_column in valid_columns:
+                if decoded_row < 0 or decoded_row > 10:
+                    return False
+                else:
+                    return True
+        except IndexError:
+            return False
 
     def fire(self, player_shooter, player_shootee):
         ''' This needs to be re-worked, several issues noticed
@@ -174,9 +177,11 @@ class Board:
             for ship in player_shootee.board.ship_info:
                 if shot_coordinates in ship.coordinates[0]:
                     print("You hit the {}".format(ship.name))
+                    ship.damage()
                     player_shootee.board.mark(shot_coordinates, True)
                     if ship.sunk():
-                        print("WooHoo! You sank the {} Captain!").format(ship.name)
+                        print("WooHoo! You sank the {} Captain!".format(ship.name))
+                        player_shootee.board.ship_info.remove(ship)
                     player_shooter.attempted_shots.append(shot_coordinates)
                 else:
                     print("You missed")
@@ -196,7 +201,8 @@ class Board:
 
     def victory_check(self, player_shooter, player_shootee):
         if len(player_shootee.board.ship_info) <= 0:
-            print("Congrats {}! You Win!!!!!")
+            self.clear_screen()
+            print("Congrats {}! You Win!!!!!".format(player_shooter.name))
             print("*" * 20)
             input("Press any key to exit")
             sys.exit()
