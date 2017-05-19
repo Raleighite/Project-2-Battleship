@@ -19,7 +19,7 @@ class Board:
         self.ship_info = [
             Ship("Aircraft Carrier", 5),
             Ship("Battleship", 4),
-            Ship("Submarine", 3),
+            #Ship("Submarine", 3),
             #Ship("Cruiser", 3),
             #Ship("Patrol Boat", 2)
         ]
@@ -175,15 +175,17 @@ class Board:
 
             for ship in player_shootee.board.ship_info:
                 if shot_coordinates in ship.coordinates[0]:
-                    print("You hit the {}".format(ship.name))
+                    self.clear_screen()
+                    input("You hit the {}".format(ship.name))
                     ship.damage()
                     player_shootee.board.mark(shot_coordinates, True)
                     if ship.sunk():
-                        print("WooHoo! You sank the {} Captain!".format(ship.name))
+                        self.clear_screen()
+                        input("WooHoo! You sank the {} Captain!".format(ship.name))
                         player_shootee.board.ship_info.remove(ship)
                     player_shooter.attempted_shots.append(shot_coordinates)
                 else:
-                    print("You missed")
+                    self.clear_screen()
                     player_shootee.board.mark(shot_coordinates, False)
                     player_shooter.attempted_shots.append(shot_coordinates)
         else:
@@ -192,10 +194,11 @@ class Board:
             self.fire(player_shooter, player_shootee)
 
     def mark(self, coordinates, hit):
-        row, column = coordinates
+        column, row = coordinates
         if hit == True:
             self.board[row][column] = Board.HIT
         else:
+            input("You missed!")
             self.board[row][column] = Board.MISS
 
     def victory_check(self, player_shooter, player_shootee):
