@@ -80,7 +80,8 @@ class Board:
                         counter += 1
                     else:
                         self.clear_screen()
-                        print('''There's another ship in that position
+                        coordinates_to_store = []
+                        input('''There's another ship in that position
                                 captain! I can't order the {} there!'''.format(ship.name))
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
@@ -95,7 +96,8 @@ class Board:
                         counter += 1
                     else:
                         self.clear_screen()
-                        print('''There's another ship in that position
+                        coordinates_to_store = []
+                        input('''There's another ship in that position
                                 captain! I can't order the {} there!'''.format(ship.name))
                         self.location_input(ship)
                 if len(coordinates_to_store) == ship.size:
@@ -138,7 +140,6 @@ class Board:
                 else:
                     clear = True
             except IndexError:
-                print("Clearance threw IndexError")
                 clear = True
         return clear
 
