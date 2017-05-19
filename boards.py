@@ -19,7 +19,7 @@ class Board:
         self.ship_info = [
             Ship("Aircraft Carrier", 5),
             Ship("Battleship", 4),
-            #Ship("Submarine", 3),
+            Ship("Submarine", 3),
             #Ship("Cruiser", 3),
             #Ship("Patrol Boat", 2)
         ]
@@ -116,7 +116,7 @@ class Board:
         '''Converts user inputted coordinates into numeric form'''
         column = int(self.COLUMNS.index(coordinates[0]))
         row = int(coordinates[1]) - 1
-        return row, column
+        return column, row
 
     def decode_coordinates(self,coordinates):
         ''''Converts numeric form coordinates into human readable alphanumeric'''
