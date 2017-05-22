@@ -75,8 +75,8 @@ class Board:
                 counter = 0
                 #coordinates_to_store = []
                 for column in range(ship.size):
-                    if self.check_ship_clearance((coordinates[1], coordinates[0] + counter)):
-                        ship.coordinates.append((coordinates[1], coordinates[0] + counter))
+                    if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
+                        ship.coordinates.append((coordinates[0] + counter, coordinates[1]))
                         counter += 1
                     else:
                         self.clear_screen()
@@ -91,8 +91,8 @@ class Board:
                 counter = 0
                 #coordinates_to_store = []
                 for row in range(ship.size):
-                    if self.check_ship_clearance((coordinates[1] + counter, coordinates[0])):
-                        ship.coordinates.append((coordinates[1] + counter, coordinates[0]))
+                    if self.check_ship_clearance((coordinates[0], coordinates[1] + counter)):
+                        ship.coordinates.append((coordinates[0], coordinates[1] + counter))
                         counter += 1
                     else:
                         self.clear_screen()
@@ -118,13 +118,13 @@ class Board:
         '''Converts user inputted coordinates into numeric form'''
         column = int(self.COLUMNS.index(coordinates[0]))
         row = int(coordinates[1]) - 1
-        return column, row
+        return row, column
 
     def decode_coordinates(self,coordinates):
         ''''Converts numeric form coordinates into human readable alphanumeric'''
-        column = self.COLUMNS[coordinates[1]]
-        row = coordinates[0] + 1
-        return column, row
+        column = self.COLUMNS[coordinates[0]]
+        row = coordinates[1] + 1
+        return row, column
 
     def check_ship_clearance(self, coordinates):
         '''Checks to see if ships desired location conflicts with an
