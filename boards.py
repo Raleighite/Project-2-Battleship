@@ -73,36 +73,36 @@ class Board:
             ship_horizontal = self.horizontal_input()
             if ship_horizontal:
                 counter = 0
-                coordinates_to_store = []
+                #coordinates_to_store = []
                 for column in range(ship.size):
                     if self.check_ship_clearance((coordinates[1], coordinates[0] + counter)):
-                        coordinates_to_store.append((coordinates[1], coordinates[0] + counter))
+                        ship.coordinates.append((coordinates[1], coordinates[0] + counter))
                         counter += 1
                     else:
                         self.clear_screen()
-                        coordinates_to_store = []
+                        #coordinates_to_store = []
                         input('''There's another ship in that position
                                 captain! I can't order the {} there!'''.format(ship.name))
                         self.location_input(ship)
-                if len(coordinates_to_store) == ship.size:
-                    ship.coordinates.append(coordinates_to_store)
-                    ship.horizontal = True
+                # if len(coordinates_to_store) == ship.size:
+                #     ship.coordinates.append(coordinates_to_store)
+                #     ship.horizontal = True
             else:
                 counter = 0
-                coordinates_to_store = []
+                #coordinates_to_store = []
                 for row in range(ship.size):
                     if self.check_ship_clearance((coordinates[1] + counter, coordinates[0])):
-                        coordinates_to_store.append((coordinates[1] + counter, coordinates[0]))
+                        ship.coordinates.append((coordinates[1] + counter, coordinates[0]))
                         counter += 1
                     else:
                         self.clear_screen()
-                        coordinates_to_store = []
+                        #coordinates_to_store = []
                         input('''There's another ship in that position
                                 captain! I can't order the {} there!'''.format(ship.name))
                         self.location_input(ship)
-                if len(coordinates_to_store) == ship.size:
-                    ship.coordinates.append(coordinates_to_store)
-                    ship.horizontal = False
+                # if len(coordinates_to_store) == ship.size:
+                #     ship.coordinates.append(coordinates_to_store)
+                #     ship.horizontal = False
 
     def mark_locations(self, ship):
         marker = ''
@@ -110,7 +110,7 @@ class Board:
             marker = self.HORIZONTAL_SHIP
         else:
             marker = self.VERTICAL_SHIP
-        for coordinate in ship.coordinates[0]:
+        for coordinate in ship.coordinates:
             self.board[coordinate[0]][coordinate[1]] = marker
 
 
@@ -132,9 +132,9 @@ class Board:
         clear = None
         for ship in self.ship_info:
             try:
-                if ship.coordinates[0] == None or []:
+                if ship.coordinates == None or []:
                     continue
-                elif coordinates in ship.coordinates[0]:
+                elif coordinates in ship.coordinates:
                     clear = False
                     return clear
                 else:
@@ -175,7 +175,7 @@ class Board:
                 self.fire(player_shooter, player_shootee)
 
             for ship in player_shootee.board.ship_info:
-                if shot_coordinates in ship.coordinates[0]:
+                if shot_coordinates in ship.coordinates:
                     self.clear_screen()
                     input("You hit the {}".format(ship.name))
                     ship.damage()
