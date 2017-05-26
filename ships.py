@@ -7,7 +7,7 @@ class Ship:
         self.size = size
         self.hit_points = size
         self.coordinates = []
-        self.horizontal = False
+        self.horizontal = None
 
     def __str__(self):
         return self.name

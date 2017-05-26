@@ -17,10 +17,10 @@ class Board:
         self.board_size = 10
         self.board = []
         self.ship_info = [
-            Ship("Aircraft Carrier", 5),
-            Ship("Battleship", 4),
-            #Ship("Submarine", 3),
-            #Ship("Cruiser", 3),
+            #Ship("Aircraft Carrier", 5),
+            #Ship("Battleship", 4),
+            Ship("Submarine", 3),
+            Ship("Cruiser", 3),
             #Ship("Patrol Boat", 2)
         ]
         for rows in range(self.board_size):
@@ -72,37 +72,43 @@ class Board:
             coordinates = self.encode_coordinates(coordinates)
             ship_horizontal = self.horizontal_input()
             if ship_horizontal:
+                ship.horizontal = True
                 counter = 0
-                #coordinates_to_store = []
                 for column in range(ship.size):
-                    if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
-                        ship.coordinates.append((coordinates[0] + counter, coordinates[1]))
-                        counter += 1
-                    else:
-                        self.clear_screen()
-                        #coordinates_to_store = []
-                        input('''There's another ship in that position
-                                captain! I can't order the {} there!'''.format(ship.name))
-                        self.location_input(ship)
-                # if len(coordinates_to_store) == ship.size:
-                #     ship.coordinates.append(coordinates_to_store)
-                #     ship.horizontal = True
-            else:
-                counter = 0
-                #coordinates_to_store = []
-                for row in range(ship.size):
                     if self.check_ship_clearance((coordinates[0], coordinates[1] + counter)):
-                        ship.coordinates.append((coordinates[0], coordinates[1] + counter))
-                        counter += 1
+                        if self.wont_grow_too_much((coordinates[0], coordinates[1] + counter)):
+                            ship.coordinates.append((coordinates[0], coordinates[1] + counter))
+                            counter += 1
+                        else:
+                            self.clear_screen()
+                            input("Ship won't fit there captain! Press a key to try again! ")
+                            ship.coordinates = []
+                            self.location_input(ship)
                     else:
                         self.clear_screen()
-                        #coordinates_to_store = []
                         input('''There's another ship in that position
                                 captain! I can't order the {} there!'''.format(ship.name))
+                        ship.coordinates = []
                         self.location_input(ship)
-                # if len(coordinates_to_store) == ship.size:
-                #     ship.coordinates.append(coordinates_to_store)
-                #     ship.horizontal = False
+            else:
+                ship.horizontal = False
+                counter = 0
+                for row in range(ship.size):
+                    if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
+                        if self.wont_grow_too_much((coordinates[0] + counter, coordinates[1])):
+                            ship.coordinates.append((coordinates[0] + counter, coordinates[1]))
+                            counter += 1
+                        else:
+                            self.clear_screen()
+                            input("Ship won't fit there captain! Press a key to try again! ")
+                            ship.coordinates = []
+                            self.location_input(ship)
+                    else:
+                        self.clear_screen()
+                        input('''There's another ship in that position
+                                captain! I can't order the {} there!'''.format(ship.name))
+                        ship.coordinates = []
+                        self.location_input(ship)
 
     def mark_locations(self, ship):
         marker = ''
@@ -117,7 +123,7 @@ class Board:
     def encode_coordinates(self, coordinates):
         '''Converts user inputted coordinates into numeric form'''
         column = int(self.COLUMNS.index(coordinates[0]))
-        row = int(coordinates[1]) - 1
+        row = int(coordinates[1:]) - 1
         return row, column
 
     def decode_coordinates(self,coordinates):
@@ -159,6 +165,13 @@ class Board:
                     return True
         except IndexError:
             return False
+
+    def wont_grow_too_much(self, coordinates):
+        if coordinates[0] and coordinates[1] > 9:
+            if coordinates[0] and coordinates[1] < 0:
+                return False
+        else:
+            return True
 
     def fire(self, player_shooter, player_shootee):
         ''' This needs to be re-worked, several issues noticed
