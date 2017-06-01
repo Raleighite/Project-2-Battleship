@@ -93,6 +93,10 @@ class Board:
                     self.clear_screen()
                     input("Ship won't fit there captain! Press a key to try again! ")
                     self.reset_ship(ship)
+        else:
+            self.clear_screen()
+            input("Those are not valid coordinates! Press a key to try again! ")
+            self.reset_ship(ship)
 
     def reset_ship(self, ship):
         ship.horizontal = None
