@@ -163,10 +163,6 @@ class Board:
             return True
 
     def fire(self, player_shooter, player_shootee):
-        ''' This needs to be re-worked, several issues noticed
-        primarily with checking against a ship's coordinates. Might
-        be best to redo check against board space instead of ship coordinates.
-        Also need to think about how to hide the opponents board from shooter's view.'''
         self.clear_screen()
         player_shootee.board.print_board()
         shot_coordinates = input("Where shall we fire Captain {}? Give coordinate like A7 > ".format(player_shooter.name))
