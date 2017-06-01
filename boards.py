@@ -173,24 +173,24 @@ class Board:
         if self.valid_coordinates_check(shot_coordinates):
             shot_coordinates = self.encode_coordinates(shot_coordinates)
             if shot_coordinates in player_shooter.attempted_shots:
-                print("You have already tried to shoot there Captain.")
+                input("You have already tried to shoot there. Press any key to try again ")
                 self.fire(player_shooter, player_shootee)
-
+            did_hit = None
             for ship in player_shootee.board.ship_info:
                 if shot_coordinates in ship.coordinates:
                     self.clear_screen()
+                    did_hit = True
                     input("You hit the {}".format(ship.name))
                     ship.damage()
-                    player_shootee.board.mark(shot_coordinates, True)
                     if ship.sunk():
                         self.clear_screen()
                         input("WooHoo! You sank the {} Captain!".format(ship.name))
                         player_shootee.board.ship_info.remove(ship)
-                    player_shooter.attempted_shots.append(shot_coordinates)
-                else:
-                    self.clear_screen()
-                    player_shootee.board.mark(shot_coordinates, False)
-                    player_shooter.attempted_shots.append(shot_coordinates)
+            player_shooter.attempted_shots.append(shot_coordinates)
+            if did_hit:
+                player_shootee.board.mark(shot_coordinates, True)
+            else:
+                player_shootee.board.mark(shot_coordinates, False)
         else:
             self.clear_screen()
             input("Those are not valid coordinates captain. Press any key to try again ")
