@@ -59,56 +59,45 @@ class Board:
             self.mark_locations(ship)
             self.clear_screen()
 
-    def horizontal_input(self):
+    def horizontal_input(self, ship):
         question = input("Shall I position her horizontally captain? Y/n?: ").strip().lower()
         if question == 'n':
-            return False
+            ship.horizontal = False
         else:
-            return True
+            ship.horizontal = True
 
     def location_input(self, ship):
         coordinates = self.take_coordinates_placement(ship)
         if self.valid_coordinates_check(coordinates):
             coordinates = self.encode_coordinates(coordinates)
-            ship_horizontal = self.horizontal_input()
-            if ship_horizontal:
-                ship.horizontal = True
-                counter = 0
-                for column in range(ship.size):
-                    if self.check_ship_clearance((coordinates[0], coordinates[1] + counter)):
-                        if self.wont_grow_too_much((coordinates[0], coordinates[1] + counter)):
-                            ship.coordinates.append((coordinates[0], coordinates[1] + counter))
-                            counter += 1
-                        else:
-                            self.clear_screen()
-                            input("Ship won't fit there captain! Press a key to try again! ")
-                            ship.coordinates = []
-                            self.location_input(ship)
-                    else:
-                        self.clear_screen()
-                        input('''There's another ship in that position
-                                captain! I can't order the {} there!'''.format(ship.name))
-                        ship.coordinates = []
-                        self.location_input(ship)
-            else:
-                ship.horizontal = False
-                counter = 0
-                for row in range(ship.size):
-                    if self.check_ship_clearance((coordinates[0] + counter, coordinates[1])):
-                        if self.wont_grow_too_much((coordinates[0] + counter, coordinates[1])):
-                            ship.coordinates.append((coordinates[0] + counter, coordinates[1]))
-                            counter += 1
-                        else:
-                            self.clear_screen()
-                            input("Ship won't fit there captain! Press a key to try again! ")
-                            ship.coordinates = []
-                            self.location_input(ship)
-                    else:
-                        self.clear_screen()
-                        input('''There's another ship in that position
-                                captain! I can't order the {} there!'''.format(ship.name))
-                        ship.coordinates = []
-                        self.location_input(ship)
+            self.horizontal_input(ship)
+            counter = 0
+            for i in range(ship.size):
+                row = None
+                column = None
+                if ship.horizontal:
+                    row = coordinates[0]
+                    column = coordinates[1] + counter
+                else:
+                    row = coordinates[0] + counter
+                    column = coordinates[1]
+                if self.check_ship_clearance((row, column)):
+                    pass
+                else:
+                    input("There's a ship already there. Press a key to try again! ")
+                    self.reset_ship(ship)
+                if self.wont_grow_too_much((row, column)):
+                    ship.coordinates.append((row, column))
+                    counter += 1
+                else:
+                    self.clear_screen()
+                    input("Ship won't fit there captain! Press a key to try again! ")
+                    self.reset_ship(ship)
+
+    def reset_ship(self, ship):
+        ship.horizontal = None
+        ship.coordinates = []
+        self.location_input(ship)
 
     def mark_locations(self, ship):
         marker = ''
