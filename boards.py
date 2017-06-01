@@ -17,11 +17,11 @@ class Board:
         self.board_size = 10
         self.board = []
         self.ship_info = [
-            #Ship("Aircraft Carrier", 5),
-            #Ship("Battleship", 4),
+            Ship("Aircraft Carrier", 5),
+            Ship("Battleship", 4),
             Ship("Submarine", 3),
             Ship("Cruiser", 3),
-            #Ship("Patrol Boat", 2)
+            Ship("Patrol Boat", 2)
         ]
         for rows in range(self.board_size):
             row = []
@@ -37,6 +37,13 @@ class Board:
         print("   " + " ".join([chr(c) for c in range(ord('A'),
                                 ord('A') + self.board_size)
                                 ]))
+    def hide_board(self):
+        self.board = []
+        for rows in range(self.board_size):
+            row = []
+            for spot in range(self.board_size):
+                row.append(self.EMPTY)
+            self.board.append(row)
 
     def print_board(self):
         self.print_board_heading()
@@ -197,7 +204,7 @@ class Board:
             self.fire(player_shooter, player_shootee)
 
     def mark(self, coordinates, hit):
-        column, row = coordinates
+        row, column = coordinates
         if hit == True:
             self.board[row][column] = Board.HIT
         else:
