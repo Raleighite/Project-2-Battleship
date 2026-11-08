@@ -1,0 +1,43 @@
+{
+  "schema": "floorplan/source-manifest@1",
+  "repository": "Raleighite/Project-2-Battleship",
+  "source_commit": "9325e5caf87f6746b4ce25ff0796877726309751",
+  "mapping_source": "original bytes; no credential derivative",
+  "source_policy": "See checker selected(): application Python/JS/HTML/CSS and actual config/static/template/input classes, excluding docs/policy/tests/dependencies/caches.",
+  "source_files": {
+    "battleship.py": "d3d7535e9ffc2bbd5d51f8d7e24e5747feb4df62f0534e8872873057097097dd",
+    "boards.py": "0e6e7ca142b11262d34fb0a7f03be6382b6ffdc591f8959db6402d52d3b5b0dd",
+    "players.py": "73ef3a0864c3276695df047fb608d118aca696027ea9a7fbf908400617f5620e",
+    "ships.py": "aa5e1b68ba2f4789786cb6362c351946384134e58061b2dfe8f249ef2a3d4604"
+  },
+  "admitted_snapshot": {
+    "players.py": "73ef3a0864c3276695df047fb608d118aca696027ea9a7fbf908400617f5620e",
+    "ships.py": "aa5e1b68ba2f4789786cb6362c351946384134e58061b2dfe8f249ef2a3d4604",
+    "battleship.py": "d3d7535e9ffc2bbd5d51f8d7e24e5747feb4df62f0534e8872873057097097dd",
+    "boards.py": "0e6e7ca142b11262d34fb0a7f03be6382b6ffdc591f8959db6402d52d3b5b0dd"
+  },
+  "counts": {
+    "files": 4,
+    "codeFiles": 4,
+    "routes": 0,
+    "modules": 4,
+    "unassigned": 0,
+    "flows": 1,
+    "tour": 4
+  },
+  "artifacts": {
+    "check_freshness.py": "1ae338eb0a8e6d9f96994b72b93dc07022f221c412ab55b264bc0105c6e164a3",
+    "generator.json": "04edcc596cf52a21813e117f01c84aac12d29cfe100ac81d10bf0f153efc349b",
+    "source-census.json": "cbbd9ed79ed01ae42caec2de7e04cd75b90c2cf343ecb4ce396b1efca6c5b077",
+    "architecture.json": "f9f3f2824e26e7a46298999d22ed7e9ceba14a1922495a2a8317831c3fa1e631",
+    "NOTICE.md": "1b961d21b4feedd4af9be96ea51dd05d1f7cf45304ab4fe88d95ba0cebeada2f",
+    "index.html": "a3cae19234b628954fd89909df9b34ea3179fd9e77ecb0bdbaf2415e71633a86",
+    "README.md": "ba0403218c2887d1e978983aec5dc5fa8d5cf5299eef3570f1b67de3b57fdf8a",
+    "descriptions/reviewed.json": "8a51f187bc0cac0415688e0f0258733d8cc69f02a63fce9cad145849c3c0c53d",
+    "tests/test_freshness.py": "94a5f53967231f5a9f5228de7a8dc9811f4bf2dc8459c8e24781430bf64c30f7",
+    "licenses/inter-LICENSE.txt": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345",
+    "licenses/elkjs-LICENSE.md": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617",
+    "licenses/LICENSE": "65a06a9dab105cd5a2b713a41a020a442bd431e6e19631182ed3889fd1672faf",
+    "licenses/jetbrains-mono-LICENSE.txt": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+  }
+}
