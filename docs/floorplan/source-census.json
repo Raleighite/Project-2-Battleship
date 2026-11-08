@@ -1,0 +1,40 @@
+{
+  "source_commit": "9325e5caf87f6746b4ce25ff0796877726309751",
+  "tracked_regular_files": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "bytes": 1281
+    },
+    {
+      "path": "battleship.py",
+      "mode": "100644",
+      "bytes": 1587
+    },
+    {
+      "path": "boards.py",
+      "mode": "100644",
+      "bytes": 8000
+    },
+    {
+      "path": "players.py",
+      "mode": "100644",
+      "bytes": 313
+    },
+    {
+      "path": "ships.py",
+      "mode": "100644",
+      "bytes": 372
+    }
+  ],
+  "admission_omissions": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "bytes": 1281
+    }
+  ],
+  "application_code_coverage": "All application Python/JS/CSS/HTML source admitted; input CSV data and dependency/development metadata are explicit outside boundaries.",
+  "route_review": "No HTTP router in CLI source.",
+  "original_license_unchanged": true
+}

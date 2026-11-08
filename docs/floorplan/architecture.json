@@ -1,0 +1,151 @@
+{
+  "$schema": "floorplan/architecture@1",
+  "audience": "everyone",
+  "project": {
+    "name": "Project-2-Battleship",
+    "summary": "Two people share a terminal Battleship game: place ships privately, alternate shots and end when one fleet is removed. State is held in Python objects; no HTTP routes.",
+    "entrypoints": [
+      "battleship.py"
+    ]
+  },
+  "include": [
+    "code",
+    "config",
+    "data",
+    "docs",
+    "other"
+  ],
+  "nodes": [
+    {
+      "id": "game",
+      "label": "Turn coordinator",
+      "summary": "Game constructs both players, stages private placement and alternates attacks.",
+      "paths": [
+        "battleship.py"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "players",
+      "label": "Players and shot memory",
+      "summary": "Each Player prompts for a name, creates a Board and remembers attempted shots.",
+      "paths": [
+        "players.py"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "board",
+      "label": "Board and targeting",
+      "summary": "Board owns the grid, placement prompts, coordinate checks, hit markers and victory exit.",
+      "paths": [
+        "boards.py"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "ships",
+      "label": "Fleet damage state",
+      "summary": "Ship stores size, coordinates and remaining hit points; sunk checks for depletion.",
+      "paths": [
+        "ships.py"
+      ],
+      "kind": "service"
+    }
+  ],
+  "edges": [
+    {
+      "from": "game",
+      "to": "players",
+      "label": "Prompt each player and build their board.",
+      "kind": "data"
+    },
+    {
+      "from": "players",
+      "to": "board",
+      "label": "Place each ship, then hide visible ship markers before handoff.",
+      "kind": "data"
+    },
+    {
+      "from": "board",
+      "to": "ships",
+      "label": "Reduce hit points for a coordinate hit and remove sunk ships.",
+      "kind": "data"
+    },
+    {
+      "from": "ships",
+      "to": "board",
+      "label": "Mark hit or miss and exit if the opponent has no ships.",
+      "kind": "data"
+    },
+    {
+      "from": "board",
+      "to": "game",
+      "label": "Otherwise switch shooter and continue.",
+      "kind": "data"
+    }
+  ],
+  "flows": [
+    {
+      "id": "main",
+      "title": "Follow the terminal processing path",
+      "steps": [
+        {
+          "node": "game",
+          "note": "Construct Game, which immediately starts setup and the turn loop."
+        },
+        {
+          "node": "players",
+          "note": "Prompt each player and build their board."
+        },
+        {
+          "node": "board",
+          "note": "Place each ship, then hide visible ship markers before handoff."
+        },
+        {
+          "node": "ships",
+          "note": "Reduce hit points for a coordinate hit and remove sunk ships."
+        },
+        {
+          "node": "board",
+          "note": "Mark hit or miss and exit if the opponent has no ships."
+        },
+        {
+          "node": "game",
+          "note": "Otherwise switch shooter and continue."
+        }
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "node": "game",
+      "title": "Turn coordinator",
+      "note": "Game constructs both players, stages private placement and alternates attacks."
+    },
+    {
+      "node": "players",
+      "title": "Players and shot memory",
+      "note": "Each Player prompts for a name, creates a Board and remembers attempted shots."
+    },
+    {
+      "node": "board",
+      "title": "Board and targeting",
+      "note": "Board owns the grid, placement prompts, coordinate checks, hit markers and victory exit."
+    },
+    {
+      "node": "ships",
+      "title": "Fleet damage state",
+      "note": "Ship stores size, coordinates and remaining hit points; sunk checks for depletion."
+    }
+  ],
+  "annotations": [
+    {
+      "path": "battleship.py",
+      "note": "hide_board clears the display grid but retains ship coordinates. Input validation and recursive retry logic are not proven correct; no game was run.",
+      "tags": [
+        "hotspot"
+      ]
+    }
+  ]
+}

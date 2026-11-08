@@ -1,0 +1,21 @@
+{
+  "files": {
+    "battleship.py": {
+      "name": "Shared-terminal game loop",
+      "description": "Creates two players, asks for fleet placement and handoff, alternates game_turn calls and starts Game at module top level. Importing it would start interactive play."
+    },
+    "players.py": {
+      "name": "Player state",
+      "description": "Prompts for captain name, constructs a Board, and starts an empty attempted_shots list."
+    },
+    "boards.py": {
+      "name": "Grid, placement and combat",
+      "description": "Builds a ten-by-ten grid and five ships; prompts for orientation and coordinates, checks placement, records shots, updates hit/miss markers and exits on victory. Coordinate checks contain questionable bounds logic; this map is not gameplay verification."
+    },
+    "ships.py": {
+      "name": "Ship damage model",
+      "description": "Stores name, length, coordinates, orientation and hit points. damage subtracts one and sunk reports depleted hit points."
+    }
+  },
+  "routes": {}
+}
